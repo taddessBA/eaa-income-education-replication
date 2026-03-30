@@ -1,0 +1,24 @@
+# Data files (restricted-use FFCWS — must not be shared)
+*.dta
+*.csv
+*.tsv
+*.sav
+*.xpt
+
+# Generated output
+output/
+
+# R workspace and history
+.RData
+.Rhistory
+.Rproj.user/
+
+# macOS
+.DS_Store
+
+# Office documents (generated tables/figures)
+*.docx
+*.xlsx
+*.pdf
+*.png
+*.jpg
