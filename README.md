@@ -11,7 +11,7 @@
 This study uses restricted-use data from the **Future of Families and Child Wellbeing Study (FFCWS)**. The data are available to qualified researchers through the Office of Population Research (OPR) data archive at Princeton University.
 
 **To request access:**
-1. Visit https://fragilefamilies.princeton.edu/
+1. Visit [https://fragilefamilies.princeton.edu/](https://ffcws.princeton.edu/documentation)
 2. Apply for restricted-use data access through the OPR Data Archive
 3. Required data modules:
    - Baseline, Year 1, Year 3, Year 5 (age 9), Year 6 (age 15), and Year 7 (age 22) surveys
