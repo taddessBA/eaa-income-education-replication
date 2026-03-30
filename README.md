@@ -1,6 +1,6 @@
 # Replication Package
 
-**Paper:** "Maternal Income, Education, and Children's Epigenetic Age Acceleration"
+**Paper:** "Maternal Income, Education, and Children's Epigenetic Age Acceleration."
 **Manuscript ID:** DEM-2024-0306
 **Journal:** Demography
 
@@ -8,7 +8,7 @@
 
 ## Data Access
 
-This study uses restricted-use data from the **Fragile Families and Child Wellbeing Study (FFCWS)**. The data are available to qualified researchers through the Office of Population Research (OPR) data archive at Princeton University.
+This study uses restricted-use data from the **Future of Families and Child Wellbeing Study (FFCWS)**. The data are available to qualified researchers through the Office of Population Research (OPR) data archive at Princeton University.
 
 **To request access:**
 1. Visit https://fragilefamilies.princeton.edu/
