@@ -13,8 +13,6 @@ library(estimatr)
 library(flextable)
 library(officer)
 
-# Load data
-data <- read_dta("data_2026_01_05.dta")
 
 cat("=== DATA LOADED ===\n")
 cat("Age 9 combined sample:", sum(!is.na(data$z_grimAge_9)), "\n")
