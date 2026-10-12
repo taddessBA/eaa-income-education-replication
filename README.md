@@ -29,7 +29,7 @@ This study uses restricted-use data from the **Future of Families and Child Well
 
 ## Execution Order
 
-Set your R working directory to this folder before running scripts. Scripts should be run in numerical order. Scripts 01-04 produce tables; script 16 produces a figure.
+Set your R working directory to this folder before running scripts. Run scripts in numerical order. Scripts 01-04 produce tables; script 16 produces a figure.
 
 | # | Script | Description | Produces |
 |---|--------|-------------|----------|
@@ -46,4 +46,3 @@ Set your R working directory to this folder before running scripts. Scripts shou
 
 - **Epigenetic clocks** (GrimAge, PhenoAge, DunedinPACE) are residualized on cell composition (EpiDISH epithelial + immune cell fractions) and array type (450K vs EPIC) before analysis.
 - **Robust standard errors** (HC2) are used throughout.
-- All output is saved to an `output/` subdirectory, which is created automatically.
