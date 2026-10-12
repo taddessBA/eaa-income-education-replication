@@ -29,8 +29,6 @@ This study uses restricted-use data from the **Future of Families and Child Well
 
 ## Execution Order
 
-Set your R working directory to this folder before running scripts.
-
 | # | Script | Description | Produces |
 |---|--------|-------------|----------|
 | 01 | `01_descriptives.R` | Table 1: Descriptive statistics | Table 1 |
