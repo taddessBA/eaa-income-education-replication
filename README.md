@@ -18,67 +18,32 @@ This study uses restricted-use data from the **Future of Families and Child Well
    - Epigenetic clock measures from Illumina 450K and EPIC arrays at ages 9 and 15
    - Cell composition estimates (EpiDISH: epithelial and immune cell fractions) at ages 9 and 15
 
-**Data file:** After obtaining access, construct the analytic dataset using `00_variable_creation.do` (Stata) and save as `data_2026_01_05.dta` in this directory.
-
 ---
 
 ## Software Requirements
 
-**Stata** (for variable creation only — script 00)
-
-**R version 4.x** with the following packages:
-
-| Package | Purpose |
-|---------|---------|
-| tidyverse | Data manipulation and visualization |
-| haven | Reading Stata .dta files |
-| estimatr | Robust standard errors (HC2) via `lm_robust()` |
-| broom | Tidying model output |
-| flextable | Formatted tables for Word export |
-| officer | Word document creation |
-| gtsummary | Descriptive statistics tables |
-| patchwork | Multi-panel figure layouts |
-| splines | Natural spline models for non-linearity tests |
-| openxlsx | Excel file operations |
-
-Install all packages:
-```r
-install.packages(c("tidyverse", "haven", "estimatr", "broom", "flextable",
-                    "officer", "gtsummary", "patchwork", "splines", "openxlsx"))
-```
+- Stata: StataCorp. 2023. *Stata Statistical Software: Release 18*. College Station, TX: StataCorp LLC.
+- R: R Core Team. 2024. *R: A Language and Environment for Statistical Computing* (version 4.4.1). Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/
 
 ---
 
 ## Execution Order
 
-Set your R working directory to this folder before running scripts. Scripts should be run in numerical order. Scripts 01-12 produce tables; scripts 13-16 produce figures.
+Set your R working directory to this folder before running scripts. Scripts should be run in numerical order. Scripts 01-04 produce tables; script 16 produces a figure.
 
 | # | Script | Description | Produces |
 |---|--------|-------------|----------|
-| 00 | `00_variable_creation.do` | Construct combined analytic dataset (Stata) | `data_2026_01_05.dta` |
+| 00 | `00_variable_creation.do` | Construct combined analytic dataset (Stata) | Analytic dataset |
 | 01 | `01_descriptives.R` | Table 1: Descriptive statistics | Table 1 |
 | 02 | `02_income_models.R` | Tables 2-3: Income and EAA models (ages 9, 15) | Tables 2-3 |
 | 03 | `03_education_models.R` | Table 4: Education and EAA models | Table 4 |
 | 04 | `04_height_analysis.R` | Table S5: EAA at age 9 and self-reported height at 15 | Table S5 |
-| 05 | `05_height_growth_adult.R` | Height growth (+ height at 9 control) and adult height | Supporting analysis |
-| 06 | `06_menarche_correlation.R` | Table S3: EAA-menarche correlations | Table S3 |
-| 07 | `07_menarche_nonlinearity.R` | Table S7: Non-linearity tests for menarche | Table S7 |
-| 08 | `08_cell_composition_sensitivity.R` | Table S10: With/without cell composition adjustment | Table S10 |
-| 09 | `09_cell_composition_tables.R` | Cell composition sensitivity detail tables | Table S10 detail |
-| 10 | `10_maternal_covariate_sensitivity.R` | Table S11: Maternal covariate sensitivity | Table S11 |
-| 11 | `11_fdr_correction.R` | Table S8: FDR correction across 12 tests | Table S8 |
-| 12 | `12_supplementary_tables.R` | Assembles all supplementary tables (S1-S11) | Supplement |
-| 13 | `13_menarche_figures.R` | Figure 1: Menarche-EAA panels | Figure 1 |
-| 14 | `14_menarche_figure_wave4.R` | Figure 2: Refined menarche figure (Wave 4) | Figure 2 |
-| 15 | `15_extremes_figures.R` | Supplementary extremes figures | Supp. Figures |
 | 16 | `16_menarche_trajectory.R` | Figure 3: Menarche-EAA trajectory | Figure 3 |
 
 ---
 
 ## Notes
 
-- **Height at age 15** is based on youth self-report (`ck6chtcm` in FFCWS), standardized to mean = 0, SD = 1.
 - **Epigenetic clocks** (GrimAge, PhenoAge, DunedinPACE) are residualized on cell composition (EpiDISH epithelial + immune cell fractions) and array type (450K vs EPIC) before analysis.
-- **Robust standard errors** (HC2) are used throughout via the `estimatr` package.
-- Script 11 (`11_fdr_correction.R`) applies FDR correction across all 12 developmental outcome tests (3 clocks × 4 outcomes: menarche linear, menarche quadratic, height growth, adult height). It contains hardcoded p-values from scripts 05 (height growth and adult height models), 06 (menarche correlation), and 07 (menarche non-linearity). Height growth values are from the fully adjusted growth model in script 05 (Model 4: controlling for height at age 9, maternal height, sex, and race). If rerunning from scratch, verify these values match your output before running the FDR correction.
+- **Robust standard errors** (HC2) are used throughout.
 - All output is saved to an `output/` subdirectory, which is created automatically.
