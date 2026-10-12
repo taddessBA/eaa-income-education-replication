@@ -4,7 +4,7 @@
 # =============================================================================
 # Height Analysis: Does EAA at Age 9 Predict Height Attainment at Age 15?
 # Addresses Reviewer Comment on Maternal Height Control
-# DV: Standardized self-reported height at age 15 (ck6chtcm, z-scored)
+# DV: Standardized self-reported height at age 15 (z-scored)
 # =============================================================================
 
 library(tidyverse)
@@ -20,32 +20,6 @@ library(officer)
 data <- read_dta("data_2026_01_05.dta")
 
 cat("=== DATA LOADED ===\n")
-
-# =============================================================================
-# Clean and Examine Height Variables
-# =============================================================================
-
-cat("\n=== HEIGHT VARIABLES ===\n")
-
-# Clean maternal height (ch5mhtcm = BioMom's height)
-# Filter out missing codes (-9, -6, -3, -1) and implausible values
-data <- data %>%
-  mutate(
-    # Clean maternal height - use ch5mhtcm (BioMom's height)
-    mat_height_clean = case_when(
-      ch5mhtcm < 0 ~ NA_real_,           # Missing codes
-      ch5mhtcm < 140 ~ NA_real_,         # Too short (likely errors or inches)
-      ch5mhtcm > 200 ~ NA_real_,         # Too tall (likely errors)
-      TRUE ~ ch5mhtcm
-    ),
-    # Clean child self-reported height at age 15 (ck6chtcm)
-    child_height_clean = case_when(
-      ck6chtcm < 0 ~ NA_real_,           # Missing codes (-9 = not in wave, -3 = missing)
-      ck6chtcm < 120 ~ NA_real_,         # Too short
-      ck6chtcm > 210 ~ NA_real_,         # Too tall
-      TRUE ~ ck6chtcm
-    )
-  )
 
 # Standardize self-reported height to mean=0, SD=1
 data$z_height_15 <- as.numeric(scale(data$child_height_clean))
