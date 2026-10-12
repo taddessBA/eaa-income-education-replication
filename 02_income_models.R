@@ -14,9 +14,6 @@ library(flextable)
 library(officer)
 library(openxlsx)
 
-# Load data
-data <- read_dta("data_2026_01_05.dta")
-
 cat("=== DATA LOADED ===\n")
 cat("Age 9 combined sample:", sum(!is.na(data$z_grimAge_9)), "\n")
 cat("Age 15 combined sample:", sum(!is.na(data$z_grimAge_15)), "\n")
@@ -691,100 +688,5 @@ cat("- output/Table2_Age9_Income_Models.docx\n")
 cat("- output/Table3_Age15_Income_Models.docx\n")
 cat("- output/Table_S_Cell_Composition_Sensitivity.docx\n")
 cat("- output/cell_composition_sensitivity_full.csv\n")
-
-# =============================================================================
-# SUPPLEMENTARY MODELS (as requested)
-# =============================================================================
-
-cat("\n=== SUPPLEMENTARY MODELS ===\n")
-
-# Supplementary models structure:
-# Model 1: Unadjusted income at birth
-# Model 2: Income at 9 only
-# Model 3: Income at 15 only  
-# Model 4: Poverty only
-# Model 5: Income at birth + income at 9 + income at 15 + poverty
-
-run_supplementary_models <- function(outcome, age_group) {
-  
-  if (age_group == 9) {
-    controls <- controls_9
-    cell_controls <- cell_controls_9
-    inc9 <- "ln_inc9_imp"
-    fpl <- "fpl_ratio_y9"
-  } else {
-    controls <- controls_15
-    cell_controls <- cell_controls_15
-    inc9 <- "ln_inc9_imp"
-    inc15 <- "ln_inc15_imp"
-    fpl <- "fpl_ratio_y15"
-  }
-  
-  results <- list()
-  
-  # Model 1: Unadjusted income at birth (no controls except array type)
-  results$m1_unadj <- run_reg(paste(outcome, "~ ln_incbirth_imp"), data)
-  
-  if (age_group == 9) {
-    # Model 2: Income at 9 only
-    results$m2 <- run_reg(paste(outcome, "~", inc9, "+", controls), data)
-    
-    # Model 3: Not applicable for age 9
-    results$m3 <- NULL
-    
-    # Model 4: Poverty only
-    results$m4 <- run_reg(paste(outcome, "~", fpl, "+", controls), data)
-    
-    # Model 5: All SES
-    results$m5 <- run_reg(paste(outcome, "~ ln_incbirth_imp +", inc9, "+", fpl, "+", controls), data)
-    
-  } else {
-    # Model 2: Income at 9 only
-    results$m2 <- run_reg(paste(outcome, "~", inc9, "+", controls), data)
-    
-    # Model 3: Income at 15 only
-    results$m3 <- run_reg(paste(outcome, "~", inc15, "+", controls), data)
-    
-    # Model 4: Poverty only
-    results$m4 <- run_reg(paste(outcome, "~", fpl, "+", controls), data)
-    
-    # Model 5: All SES
-    results$m5 <- run_reg(paste(outcome, "~ ln_incbirth_imp +", inc9, "+", inc15, "+", fpl, "+", controls), data)
-  }
-  
-  return(results)
-}
-
-# Run supplementary models for Age 9
-cat("\n--- Supplementary Models: Age 9 ---\n")
-for (outcome in outcomes_9) {
-  supp <- run_supplementary_models(outcome, 9)
-  
-  cat("\n", outcome, "\n")
-  cat("  M1 (Inc Birth unadj):", extract_results(supp$m1_unadj, "ln_incbirth_imp")$coef, "\n")
-  cat("  M2 (Inc 9):          ", extract_results(supp$m2, "ln_inc9_imp")$coef, "\n")
-  cat("  M4 (Poverty):        ", extract_results(supp$m4, "fpl_ratio_y9")$coef, "\n")
-  cat("  M5 (All SES):\n")
-  cat("     Inc Birth:        ", extract_results(supp$m5, "ln_incbirth_imp")$coef, "\n")
-  cat("     Inc 9:            ", extract_results(supp$m5, "ln_inc9_imp")$coef, "\n")
-  cat("     Poverty:          ", extract_results(supp$m5, "fpl_ratio_y9")$coef, "\n")
-}
-
-# Run supplementary models for Age 15
-cat("\n--- Supplementary Models: Age 15 ---\n")
-for (outcome in outcomes_15) {
-  supp <- run_supplementary_models(outcome, 15)
-  
-  cat("\n", outcome, "\n")
-  cat("  M1 (Inc Birth unadj):", extract_results(supp$m1_unadj, "ln_incbirth_imp")$coef, "\n")
-  cat("  M2 (Inc 9):          ", extract_results(supp$m2, "ln_inc9_imp")$coef, "\n")
-  cat("  M3 (Inc 15):         ", extract_results(supp$m3, "ln_inc15_imp")$coef, "\n")
-  cat("  M4 (Poverty):        ", extract_results(supp$m4, "fpl_ratio_y15")$coef, "\n")
-  cat("  M5 (All SES):\n")
-  cat("     Inc Birth:        ", extract_results(supp$m5, "ln_incbirth_imp")$coef, "\n")
-  cat("     Inc 9:            ", extract_results(supp$m5, "ln_inc9_imp")$coef, "\n")
-  cat("     Inc 15:           ", extract_results(supp$m5, "ln_inc15_imp")$coef, "\n")
-  cat("     Poverty:          ", extract_results(supp$m5, "fpl_ratio_y15")$coef, "\n")
-}
 
 cat("\n=== ANALYSIS COMPLETE ===\n")
