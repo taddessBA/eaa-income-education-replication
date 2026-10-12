@@ -73,15 +73,6 @@ long_all <- bind_rows(
 # Calculate group means for the trajectory plot
 # =============================================================================
 
-group_summary <- long_all %>%
-  group_by(Clock, timing, wave) %>%
-  summarise(
-    mean_eaa = mean(eaa, na.rm = TRUE),
-    se = sd(eaa, na.rm = TRUE) / sqrt(n()),
-    n = n(),
-    .groups = "drop"
-  )
-
 cat("\n=== GROUP SUMMARY ===\n")
 print(as.data.frame(group_summary))
 
@@ -156,16 +147,6 @@ cat("\nSaved: output/Figure_Menarche_EAA_Trajectory.png/.pdf\n")
 # ALSO: Per menarche age (10-14) trajectory — shows the full gradient
 # =============================================================================
 
-group_by_age <- long_all %>%
-  filter(k6d10 >= 10, k6d10 <= 14) %>%
-  group_by(Clock, k6d10, wave) %>%
-  summarise(
-    mean_eaa = mean(eaa, na.rm = TRUE),
-    se = sd(eaa, na.rm = TRUE) / sqrt(n()),
-    n = n(),
-    .groups = "drop"
-  ) %>%
-  mutate(k6d10 = factor(k6d10))
 
 plot_trajectory_by_age <- function(df, clock_name) {
 
