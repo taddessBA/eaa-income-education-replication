@@ -13,9 +13,6 @@ output/
 .Rhistory
 .Rproj.user/
 
-# macOS
-.DS_Store
-
 # Office documents (generated tables/figures)
 *.docx
 *.xlsx
