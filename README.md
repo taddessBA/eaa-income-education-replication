@@ -8,7 +8,7 @@
 
 ## Data Access
 
-This study uses restricted-use data from the **Future of Families and Child Wellbeing Study (FFCWS)**. The data are available to qualified researchers through the Office of Population Research (OPR) data archive at Princeton University.
+This study uses restricted-use data from the **Future of Families and Child Wellbeing Study (FFCWS)**. The data are available through the Office of Population Research (OPR) data archive at Princeton University.
 
 **To request access:**
 1. Visit [https://fragilefamilies.princeton.edu/](https://ffcws.princeton.edu/documentation)
@@ -29,11 +29,10 @@ This study uses restricted-use data from the **Future of Families and Child Well
 
 ## Execution Order
 
-Set your R working directory to this folder before running scripts. Run scripts in numerical order. Scripts 01-04 produce tables; script 16 produces a figure.
+Set your R working directory to this folder before running scripts.
 
 | # | Script | Description | Produces |
 |---|--------|-------------|----------|
-| 00 | `00_variable_creation.do` | Construct combined analytic dataset (Stata) | Analytic dataset |
 | 01 | `01_descriptives.R` | Table 1: Descriptive statistics | Table 1 |
 | 02 | `02_income_models.R` | Tables 2-3: Income and EAA models (ages 9, 15) | Tables 2-3 |
 | 03 | `03_education_models.R` | Table 4: Education and EAA models | Table 4 |
@@ -45,4 +44,4 @@ Set your R working directory to this folder before running scripts. Run scripts 
 ## Notes
 
 - **Epigenetic clocks** (GrimAge, PhenoAge, DunedinPACE) are residualized on cell composition (EpiDISH epithelial + immune cell fractions) and array type (450K vs EPIC) before analysis.
-- **Robust standard errors** (HC2) are used throughout.
+- **Robust standard errors** are used throughout.
