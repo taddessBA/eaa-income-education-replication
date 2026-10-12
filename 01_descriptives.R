@@ -4,20 +4,12 @@
 # =============================================================================
 # Table 1: Descriptive Characteristics of Study Participants
 # =============================================================================
-# Reproduces Table 1 from the manuscript using the current combined dataset.
-# Two panels:
-#   - Child characteristics: full FFCWS sample (N = 4,158)
-#   - Focal child's mother characteristics: analytic sample with epigenetic
-#     clock data at age 9 or age 15 (N = 1,932)
 # =============================================================================
 
 library(tidyverse)
 library(haven)
 library(flextable)
 library(officer)
-
-# NOTE: Set working directory to the folder containing this script and data_2026_01_05.dta
-# setwd("path/to/replication/")
 
 # Load data
 data <- read_dta("data_2026_01_05.dta")
@@ -74,22 +66,22 @@ cat("
 n_male <- sum(full$female == 0, na.rm = TRUE)
 n_female <- sum(full$female == 1, na.rm = TRUE)
 
-# Race/Ethnicity (cm1ethrace: 1=NHWhite, 2=NHBlack, 3=Hispanic, 4=Other)
-n_white <- sum(full$cm1ethrace == 1, na.rm = TRUE)
-n_black <- sum(full$cm1ethrace == 2, na.rm = TRUE)
-n_hispanic <- sum(full$cm1ethrace == 3, na.rm = TRUE)
-n_other_race <- sum(full$cm1ethrace == 4, na.rm = TRUE)
-N_race <- sum(!is.na(full$cm1ethrace))
+# Race/Ethnicity (race: 1=NHWhite, 2=NHBlack, 3=Hispanic, 4=Other)
+n_white <- sum(full$race == 1, na.rm = TRUE)
+n_black <- sum(full$race == 2, na.rm = TRUE)
+n_hispanic <- sum(full$race == 3, na.rm = TRUE)
+n_other_race <- sum(full$race == 4, na.rm = TRUE)
+N_race <- sum(!is.na(full$race))
 
 # Low birth weight
-n_lbw <- sum(full$cm1lbw == 1, na.rm = TRUE)
-N_lbw <- sum(full$cm1lbw %in% c(0, 1))
+n_lbw <- sum(full$birt_w) == 1, na.rm = TRUE)
+N_lbw <- sum(full$birth_w %in% c(0, 1))
 
-# Age at Wave 4 (filter positive values)
+# Age at Wave 5 (filter positive values)
 age9_vals <- full$age_9[!is.na(full$age_9) & full$age_9 > 0]
 age9_str <- sprintf("%.2f (%.2f)", mean(age9_vals), sd(age9_vals))
 
-# Age at Wave 5 (filter positive values)
+# Age at Wave 6 (filter positive values)
 age15_vals <- full$age_15[!is.na(full$age_15) & full$age_15 > 0]
 age15_str <- sprintf("%.2f (%.2f)", mean(age15_vals), sd(age15_vals))
 
@@ -113,11 +105,11 @@ cat("
 ")
 
 # Mother Race/Ethnicity
-m_white <- sum(analytic$cm1ethrace == 1, na.rm = TRUE)
-m_black <- sum(analytic$cm1ethrace == 2, na.rm = TRUE)
-m_hispanic <- sum(analytic$cm1ethrace == 3, na.rm = TRUE)
-m_other <- sum(analytic$cm1ethrace == 4, na.rm = TRUE)
-M_race <- sum(!is.na(analytic$cm1ethrace))
+m_white <- sum(analytic$racem == 1, na.rm = TRUE)
+m_black <- sum(analytic$racem == 2, na.rm = TRUE)
+m_hispanic <- sum(analytic$racem == 3, na.rm = TRUE)
+m_other <- sum(analytic$racem == 4, na.rm = TRUE)
+M_race <- sum(!is.na(analytic$racem))
 
 # Mother age at birth
 mat_age_str <- sprintf("%.2f (%.2f)",
@@ -137,13 +129,13 @@ inc_birth_str <- sprintf("%s (%s)",
                           format(round(mean(inc_birth_vals), 2), big.mark = ","),
                           format(round(sd(inc_birth_vals), 2), big.mark = ","))
 
-# Income at Wave 4 (age 9)
+# Income at Wave 5 (age 9)
 inc9_vals <- analytic$inc9[!is.na(analytic$inc9) & analytic$inc9 >= 0]
 inc9_str <- sprintf("%s (%s)",
                      format(round(mean(inc9_vals), 2), big.mark = ","),
                      format(round(sd(inc9_vals), 2), big.mark = ","))
 
-# Income at Wave 5 (age 15)
+# Income at Wave 6 (age 15)
 inc15_vals <- analytic$inc15[!is.na(analytic$inc15) & analytic$inc15 >= 0]
 inc15_str <- sprintf("%s (%s)",
                       format(round(mean(inc15_vals), 2), big.mark = ","),
@@ -161,9 +153,9 @@ cat("Education: <HS", m_edu1, "| HS", m_edu2, "| Some college", m_edu3, "| Colle
 ")
 cat("Income at birth:", inc_birth_str, "
 ")
-cat("Income at Wave 4:", inc9_str, "
+cat("Income at Wave 5:", inc9_str, "
 ")
-cat("Income at Wave 5:", inc15_str, "
+cat("Income at Wave 6:", inc15_str, "
 ")
 cat("Poverty ratio:", fpl_str, "
 ")
@@ -185,8 +177,8 @@ table1 <- data.frame(
     "  Hispanic",
     "  Other",
     "Low birth weight",
-    "Age at Wave 4",
     "Age at Wave 5",
+    "Age at Wave 6",
     "Age at Child's Birth",
     "Education",
     "  Less than high school",
@@ -195,8 +187,8 @@ table1 <- data.frame(
     "  College degree or higher",
     "Maternal Income",
     "  Income at child's birth",
-    "  Income at Wave 4",
     "  Income at Wave 5",
+    "  Income at Wave 6",
     "Maternal Poverty Ratio"
   ),
   Child = c(
